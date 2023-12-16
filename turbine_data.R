@@ -59,6 +59,7 @@ g1 <- ggplot(monthly_mean_windspeed, aes(x = Date, y = Avg_WindSpeed)) +
   theme(axis.text.x = element_text(angle = 90, hjust = 0.5, vjust = 0.5))
 
 show(g1)
+ggsave("RuzgarHiziGrafik.jpeg", plot = g1, width = 8, height = 6, dpi = 300)
 
 #rounding WindDirection to integer and grouping
 fulldata$WindDirection <- round(fulldata$WindDirection)
@@ -79,5 +80,5 @@ g2 <- ggplot(WindDir_grouped, aes(x = factor(Wind_Dir), y = Count)) +
   theme_grey()
 
 show(g2)
-
+ggsave("RuzgarYonuGrafik.jpeg", plot = g2, width = 8, height = 6, dpi = 300)
 
