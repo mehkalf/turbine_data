@@ -51,7 +51,7 @@ monthly_mean_windspeed <- fulldata %>%
 #plot monthly mean windspeed
 g1 <- ggplot(monthly_mean_windspeed, aes(x = Date, y = Avg_WindSpeed)) +
   geom_bar(stat = "identity", fill = "navy") +
-  geom_text(aes(label = Data_count), vjust = -0.5, color = "black") +
+  geom_text(aes(label = Data_count), size, 2.5, vjust = -0.5, color = "black") +
   labs(title = "Monthly Average Wind Speed and Data Count",
        x = "Months",
        y = "Avg. Wind Speed") +
