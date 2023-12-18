@@ -95,3 +95,11 @@ corrplot(correlation_matrix,
          number.cex = 1.5, 
          tl.col = "black")
 dev.off()
+
+# explore missing data and plot
+g4 <- ggplot(missing_values, aes(x=reorder(feature,-missing_pct),y=missing_pct)) +
+      geom_bar(stat="identity",fill="darkred") +
+      coord_flip() +
+      theme_bw()
+show(g4)
+ggsave("MissingDataPercentage.jpeg", plot = g4, width = 8, height = 6, dpi = 300)
