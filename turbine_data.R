@@ -5,9 +5,10 @@ library('scales') # visualization
 library('dplyr') # data manipulation
 library('mice') # imputation
 library('randomForest') # classification algorithm
+library('corrplot') # plot correlation matrix
 
 #import data
-fulldata <- read.csv(paste(getwd(), 'SCRIPTS_R/turbine_data/Turbine_Data.csv', sep = "/"))
+fulldata <- read.csv(paste(getwd(), 'turbine_data/Turbine_Data.csv', sep = "/"))
 
 # check data
 str(fulldata)
@@ -51,7 +52,7 @@ monthly_mean_windspeed <- fulldata %>%
 #plot monthly mean windspeed
 g1 <- ggplot(monthly_mean_windspeed, aes(x = Date, y = Avg_WindSpeed)) +
   geom_bar(stat = "identity", fill = "navy") +
-  geom_text(aes(label = Data_count), size, 2.5, vjust = -0.5, color = "black") +
+  geom_text(aes(label = Data_count), size = 2.5, vjust = -0.5, color = "black") +
   labs(title = "Monthly Average Wind Speed and Data Count",
        x = "Months",
        y = "Avg. Wind Speed") +
@@ -77,8 +78,20 @@ g2 <- ggplot(WindDir_grouped, aes(x = factor(Wind_Dir), y = Count)) +
        x = "Wind Direction (Degree)",
        y = "Data Count") +
   scale_x_discrete(labels = seq(0, 350, by = 10), breaks = seq(0, 350, by = 10))
-  theme_grey()
+theme_grey()
 
 show(g2)
 ggsave("RuzgarYonuGrafik.jpeg", plot = g2, width = 8, height = 6, dpi = 300)
 
+# explore correlation between data
+# select only numeric columns and remove NA rows
+corr_data <- fulldata %>% select_if(is.numeric) %>% na.omit()
+correlation_matrix <- cor(corr_data)
+
+# export correlation matrix to png file
+png(file="corr_matrix.png", width=1500, height=1500)
+corrplot(correlation_matrix,
+         method = "number", 
+         number.cex = 1.5, 
+         tl.col = "black")
+dev.off()
